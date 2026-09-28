@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Highway Chaos — You've been challenged</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0d1017; color:#f2f4f8; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+         min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .card { max-width:420px; width:100%; text-align:center; }
+  .logo { font-size:30px; font-weight:800; letter-spacing:.18em; margin-bottom:6px; }
+  .logo span { color:#ffb020; }
+  .tag { color:#8b93a5; font-size:13px; letter-spacing:.08em; margin-bottom:28px; }
+  .msg { font-size:17px; line-height:1.5; margin-bottom:28px; color:#d7dce6; }
+  .btn { display:block; width:100%; padding:15px; border-radius:12px; font-size:15px; font-weight:700;
+         letter-spacing:.06em; text-decoration:none; margin-bottom:12px; }
+  .btn-primary { background:#ffb020; color:#14100a; }
+  .btn-ghost { background:#1c2230; color:#f2f4f8; border:1px solid #2c3548; }
+  .fine { margin-top:18px; font-size:11px; color:#5c6474; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">HIGHWAY <span>CHAOS</span></div>
+  <div class="tag">GHOST CHALLENGE</div>
+  <div class="msg" id="msg">You've been challenged to a ghost race.</div>
+  <a class="btn btn-primary" id="openapp" href="#">OPEN IN APP</a>
+  <a class="btn btn-ghost" id="getapp" href="#">GET IT ON GOOGLE PLAY</a>
+  <div class="fine">Install Highway Chaos, then tap the challenge link again<br>to race the ghost.</div>
+</div>
+<script>
+(function(){
+  // driftline-games.github.io and com.we.highwaychaos are replaced at deploy time (see ANDROID_SETUP.md).
+  var DOMAIN = 'driftline-games.github.io';
+  var PKG = 'com.we.highwaychaos';
+  var h = location.hash || '';
+  var msg = document.getElementById('msg');
+  if (h.indexOf('#d=') === 0) {
+    msg.textContent = "You've been challenged to beat a Daily Challenge score.";
+  } else if (h.indexOf('#g=') === 0) {
+    msg.textContent = "You've been challenged to a ghost race. Open it in the app to race their ghost.";
+  }
+  // Retry the https link: if the app is installed, Android opens it directly.
+  document.getElementById('openapp').href = 'https://' + DOMAIN + location.pathname + h;
+  document.getElementById('getapp').href = 'https://play.google.com/store/apps/details?id=' + PKG;
+})();
+</script>
+</body>
+</html>
