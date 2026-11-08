@@ -27,6 +27,7 @@
   <div class="msg" id="msg">You've been challenged to a ghost race.</div>
   <a class="btn btn-primary" id="openapp" href="#">OPEN IN APP</a>
   <a class="btn btn-ghost" id="getapp" href="#">GET IT ON GOOGLE PLAY</a>
+  <a class="btn btn-ghost" id="getapp2" href="#" style="display:none">DOWNLOAD ON THE APP STORE</a>
   <div class="fine">Install Highway Chaos, then tap the challenge link again<br>to race the ghost.</div>
 </div>
 <script>
@@ -43,15 +44,25 @@
   }
   // Retry the https link: if the app is installed, Android opens it directly.
   document.getElementById('openapp').href = 'https://' + DOMAIN + location.pathname + h;
-  // Store button: iOS users get the App Store, everyone else gets Google Play.
+  // Store button: iOS users get the App Store, Android users get Google Play,
+  // desktop users see both. The MacIntel + maxTouchPoints check catches iPads,
+  // which report as desktop Macs in Safari.
   var getapp = document.getElementById('getapp');
-  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  var getapp2 = document.getElementById('getapp2');
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/.test(navigator.userAgent);
   if (isIOS) {
     getapp.textContent = 'DOWNLOAD ON THE APP STORE';
     getapp.href = 'https://apps.apple.com/app/id6831871241';
-  } else {
+  } else if (isAndroid) {
     getapp.textContent = 'GET IT ON GOOGLE PLAY';
     getapp.href = 'https://play.google.com/store/apps/details?id=' + PKG;
+  } else {
+    getapp.textContent = 'DOWNLOAD ON THE APP STORE';
+    getapp.href = 'https://apps.apple.com/app/id6831871241';
+    getapp2.textContent = 'GET IT ON GOOGLE PLAY';
+    getapp2.href = 'https://play.google.com/store/apps/details?id=' + PKG;
+    getapp2.style.display = 'block';
   }
 })();
 </script>
