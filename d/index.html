@@ -43,7 +43,16 @@
   }
   // Retry the https link: if the app is installed, Android opens it directly.
   document.getElementById('openapp').href = 'https://' + DOMAIN + location.pathname + h;
-  document.getElementById('getapp').href = 'https://play.google.com/store/apps/details?id=' + PKG;
+  // Store button: iOS users get the App Store, everyone else gets Google Play.
+  var getapp = document.getElementById('getapp');
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  if (isIOS) {
+    getapp.textContent = 'DOWNLOAD ON THE APP STORE';
+    getapp.href = 'https://apps.apple.com/app/id6831871241';
+  } else {
+    getapp.textContent = 'GET IT ON GOOGLE PLAY';
+    getapp.href = 'https://play.google.com/store/apps/details?id=' + PKG;
+  }
 })();
 </script>
 </body>
